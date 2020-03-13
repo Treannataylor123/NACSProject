@@ -1,0 +1,38 @@
+{% extends 'base.html' %}
+
+{% block title %}Come To My Party!{% endblock %}
+
+{% block content %}
+
+<h1> Welcome to NACS</h1>
+
+<h3> {{PLACE HEADER FOR INFORMATION}} </h3>
+  
+
+<form action="/login" method="POST">
+
+    <div class="form-group">
+      <label>Please enter Username or Email:
+          <input type="email" name="email" required class="form-control">
+      </label>
+    </div>
+
+    <div class="form-group">
+      <label>Please Enter Password:
+          <input type="password" name="password" required class="form-control">
+      </label>
+    </div>
+
+    <div class="form-group">
+      <input type="submit" value="Log In" class="btn btn">
+    </div>
+
+  </form>
+  <form action="/Sign_Up">
+    <div class= 'Sign-up-btn'>
+        <label>If no login </label>
+        <input type ="button" value='Sign-Up' class="btn btn btn" >
+    </div>
+</form>
+{% endblock %}
+

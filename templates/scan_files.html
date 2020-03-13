@@ -1,0 +1,19 @@
+{% extends "base.html" %}
+
+{% block title %}NACS home!{% endblock %}
+
+{% block content %}
+
+<body>
+   
+    <label>Please upload folder to began Scan</label>
+    <form action= "/upload" method="post" enctype="multipart/form-data">
+        <div>
+            <input type="file" name='file' id="fileUpload" class="custom-file-input">
+        </div>
+        <input type="submit" class="btn btn-primary" value="Upload">
+ </form>
+
+</body>
+
+{% endblock %}
