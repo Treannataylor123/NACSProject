@@ -17,7 +17,7 @@ app.secret_key = "NASC"
 # silently. This is horrible. Fix this so that, instead, it raises an
 # error.
 app.jinja_env.undefined = StrictUndefined
-UPLOAD_FOLDER = 'fileexamples/lotterScam'
+UPLOAD_FOLDER = 'fileexamples'
 rules = yara.compile("mainrule.yara")
 ALLOWED_EXTENSIONS = set(['txt', 'pdf', 'png', 'jpg', 'jpeg', 'gif'])
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
@@ -48,20 +48,20 @@ def process_login():
     flash("Successfully logged in")
     return redirect(f'/users/{user.username}')
 
-@app.route("/Sign_up", methods=['GET'])
+@app.route("/sign_up", methods=['GET'])
 def signup_form():
     """Show form to Register an Account"""
 
     return render_template('sign_upform.html')
 
-@app.route('/Sign_up', methods=['POST'])
+@app.route('/sign_up', methods=['POST'])
 def process_signup():
     """processes register"""
     fname= request.form["fname"]
     lname= request.form["lname"]
     email = request.form["email"]
     password = request.form["password"]
-    username = (request.form["username"])
+    username = request.form["username"]
   
 
     new_user = User(email=email,fname=fname, lname=lname, password=password, username=username)
@@ -75,7 +75,7 @@ def process_signup():
 @app.route("/homepage/<username>", methods=['POST'])
 def home_NACS(username):
     """Offical homepage of the user"""
-    username = request.args["username"]
+    username = request.form["username"]
 
     #username = db.session.query(User.fname, User.user_id, User.username,
         #Scan.scan_type, Scan.scan_date, Scan.scan_findings).join(Scan).all()
@@ -97,16 +97,21 @@ def scan_files():
 def upload_file():
     """Allows user to upload files"""
 
-    #file = request.files['file']
-    #filename = secure_filename(file.filename)
-    #file_name= file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
-    match = rules.match(UPLOAD_FOLDER)
+    file = request.files['file']
+    filename = secure_filename(file.filename)
+    #file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
+    filepath = (os.path.join(app.config['UPLOAD_FOLDER'], filename))
 
-    #if match:
-        #return print(f"[!] Found Malicious Code, Delete {UPLOAD_FOLDER} asap to protect machine!")
 
-    #else:
-        #return print(f"[!] No Malicious Code found in {UPLOAD_FOLDER}, Your Safe!")
+    match = rules.match(filepath)
+
+    if match:
+        flash(f"[!] Found Malicious Code, Delete {filename} asap to protect machine!")
+        return redirect("/scan_files")
+
+    else:
+        flash(f"[!] No Malicious Code found in {filename}, Your Safe!")
+        return redirect("/")
     #file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
 
     

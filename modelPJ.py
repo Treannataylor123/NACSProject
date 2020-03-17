@@ -25,13 +25,14 @@ class Scan(db.Model):
     findings = db.Column(db.String(225), nullable=True)
     scan_date = db.Column(db.DateTime, nullable=False)
 
-class Tips_to_Secure(db.Model):
+class Best_Practices(db.Model):
 
-    __tablename__ = "tips_to_secure"
+    __tablename__ = "best_practices"
 
 
     tip_id = db.Column(db.Integer, autoincrement=True, primary_key=True)
-    tip_content = db.Column(db.String(225), nullable=False)
+    tip_tile = db.Column(db.String(225), nullable=False)
+    tip_paragraph = db.Column(db.String(500), nullable=False)
 
 class Black_list_sites(db.Model):
 

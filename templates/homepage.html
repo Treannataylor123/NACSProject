@@ -6,7 +6,7 @@
 
 <h1> Welcome to NACS</h1>
 
-<h3> {{PLACE HEADER FOR INFORMATION}} </h3>
+<h3> {PLACE HEADER FOR INFORMATION} </h3>
   
 
 <form action="/login" method="POST">
@@ -27,11 +27,12 @@
       <input type="submit" value="Log In" class="btn btn">
     </div>
 
-  </form>
-  <form action="/Sign_Up">
-    <div class= 'Sign-up-btn'>
+</form>
+<form action="/sign_up" method="GET">
+
+    <div class= 'sign-up-btn'>
         <label>If no login </label>
-        <input type ="button" value='Sign-Up' class="btn btn btn" >
+        <input type ="submit" value='Sign-Up' class="btn btn" >
     </div>
 </form>
 {% endblock %}
