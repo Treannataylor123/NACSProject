@@ -1,0 +1,34 @@
+{% extends "base.html" %}
+
+{% block title %}NACS home!{% endblock %}
+
+{% block content %}
+
+<h1>Welcome, {{username}}</h1>
+
+    <ul class="nav nav-pills">
+        <li class="nav-item">
+            <a class="nav-link active" href="/best_practices">Best Cyber Security Practices</a>
+
+        </li>
+        <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Scans</a>
+                <div class="dropdown-menu">
+                    <div class="dropdown-divider"></div>
+                        <a class="dropdown-item" href="/url_scan">Scan Url</a>
+                     <div class="dropdown-divider"></div>
+                        <a class="dropdown-item" href="/file_scan">Scan Files</a>
+                </div>
+        </li>
+         <li class="nav-item">
+            <a class="nav-link" href="/black_listed">Blacklist Urls</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="/">Log out</a>
+        </li>
+    </ul>
+
+
+    <h1>{{{Place holder for previous scans table}}}}</h1>
+    {% endblock %}
+

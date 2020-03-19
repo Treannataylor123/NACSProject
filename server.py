@@ -4,7 +4,7 @@ from flask import Flask, render_template, redirect, request, flash, session
 
 #from flask_debugtoolbar import DebugToolbarExtension
 from werkzeug.utils import secure_filename
-from modelPJ import User, Scan, Tips_to_Secure, Black_list_sites, connect_to_db, db
+from modelPJ import User, Scan, Best_Practices, connect_to_db, db
 import yara 
 
 
@@ -30,14 +30,14 @@ def index():
 @app.route('/', methods=["POST"])
 def process_login():
 
-    email = request.form["email"]
+    username = request.form["username"]
     password = request.form["password"]
 
-    user = db.session.query.User.filter_by(email=email).first()
+    user = User.query.filter_by(username=username).first()
 
     if not user:
         flash("Invaild user, Please Register an account")
-        return redirect("/Sign_up")
+        return redirect("/sign_up")
 
     if user.password != password:
         flash("Invaild password")
@@ -46,7 +46,7 @@ def process_login():
     session["username"] = user.username
 
     flash("Successfully logged in")
-    return redirect(f'/users/{user.username}')
+    return redirect(f'/homepage/{user.username}')
 
 @app.route("/sign_up", methods=['GET'])
 def signup_form():
@@ -70,12 +70,12 @@ def process_signup():
     db.session.commit()
 
     flash(f"User {username} added.")
-    return redirect(f"/homepage/{new_user.username}")
+    return redirect(f'/homepage/{new_user.username}')
 
-@app.route("/homepage/<username>", methods=['POST'])
+@app.route("/homepage/<username>")
 def home_NACS(username):
     """Offical homepage of the user"""
-    username = request.form["username"]
+    username = User.query.get(username)
 
     #username = db.session.query(User.fname, User.user_id, User.username,
         #Scan.scan_type, Scan.scan_date, Scan.scan_findings).join(Scan).all()
@@ -121,17 +121,19 @@ def upload_file():
 
 @app.route("/scan_url")
 def scan_url():
-    username = request.get.arg("username")
+    #username = request.get.arg("username")
 
-    return render_template("scan_url.html", username=username)
+    return render_template("scan_url.html")
 
 
 @app.route("/best_practices")
 def best_practices():
-    username = request.get.arg("username")
+    #username = request.get.arg("username")
     """list the best practices for cyber security at home"""
 
-    return render_template("best_practices.html", username=username,)
+    tips = Best_Practices.query.all()
+
+    return render_template("best_practices.html", tips=tips)
 
 @app.route("/logout")
 def logout():
@@ -151,6 +153,8 @@ if __name__ == "__main__":
     app.jinja_env.auto_reload = app.debug
 
     connect_to_db(app)
+   
+
 
     # Use the DebugToolbar
     #DebugToolbarExtension(app)

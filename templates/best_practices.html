@@ -1,9 +1,20 @@
-{% extends "base.html" %}
-
-{% block title %}NACS home!{% endblock %}
-
+{% extends 'base.html' %}
 {% block content %}
 
-<h1>{{Place holder for list of best practices}}</h1>
 
+<div class="well spaced" style="width:60%">
+  <h2>Best practices</h2>
+
+  
+    {% for tip in tips %}
+      <li>
+        
+          <h3> {{ tip.tip_id }} . {{ tip.tip_title }} </h3>
+          <p> {{tip.tip_paragraph}}</p>
+
+      </li>
+    {% endfor %}
+  
+
+</div>
 {% endblock %}

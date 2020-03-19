@@ -8,7 +8,7 @@ class User(db.Model):
     __tablename__ = "users"
 
     user_id = db.Column(db.Integer, autoincrement=True, primary_key=True)
-    username = db.Column(db.String(64), nullable=True)
+    username = db.Column(db.String(64), unique= True, nullable=True)
     fname = db.Column(db.String(64), nullable=True)
     lname = db.Column(db.String(64), nullable=True)
     email = db.Column(db.String(64), nullable=True)
@@ -31,16 +31,9 @@ class Best_Practices(db.Model):
 
 
     tip_id = db.Column(db.Integer, autoincrement=True, primary_key=True)
-    tip_tile = db.Column(db.String(225), nullable=False)
-    tip_paragraph = db.Column(db.String(500), nullable=False)
+    tip_title = db.Column(db.String(225), nullable=False)
+    tip_paragraph = db.Column(db.String(1000), nullable=False)
 
-class Black_list_sites(db.Model):
-
-    __tablename__ = "black_list_sites"
-
-
-    site_id = db.Column(db.Integer, autoincrement=True, primary_key=True)
-    domain_name = db.Column(db.String(225), nullable=False)
 
 def connect_to_db(app):
     """Connect the database to our Flask app."""
