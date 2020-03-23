@@ -1,6 +1,8 @@
 from flask_sqlalchemy import SQLAlchemy
 
 
+
+
 db = SQLAlchemy()
 
 class User(db.Model):
@@ -8,15 +10,15 @@ class User(db.Model):
     __tablename__ = "users"
 
     user_id = db.Column(db.Integer, autoincrement=True, primary_key=True)
-    username = db.Column(db.String(64), unique= True, nullable=True)
-    fname = db.Column(db.String(64), nullable=True)
-    lname = db.Column(db.String(64), nullable=True)
-    email = db.Column(db.String(64), nullable=True)
-    password = db.Column(db.String(64), nullable=True)
+    fname = db.Column(db.String(64), nullable=False)
+    lname = db.Column(db.String(64), nullable=False)
+    email = db.Column(db.String(64), nullable=False)
+    username = db.Column(db.String(64), unique= True, nullable=False)
+    password = db.Column(db.String(64), nullable=False)
 
 class Scan(db.Model):
     
-    __tablename__ = "scan"
+    __tablename__ = "scans"
 
 
     scan_id = db.Column(db.Integer, autoincrement=True, primary_key=True)
@@ -39,7 +41,7 @@ def connect_to_db(app):
     """Connect the database to our Flask app."""
 
     # Configure to use our PstgreSQL database
-    app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql:///NACS'
+    app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql:///NACSdb'
     app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
     db.app = app
     db.init_app(app)

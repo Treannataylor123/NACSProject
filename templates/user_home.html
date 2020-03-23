@@ -1,10 +1,10 @@
 {% extends "base.html" %}
 
-{% block title %}NACS home!{% endblock %}
+{% block title %}NACS Home{% endblock %}
 
 {% block content %}
 
-<h1>Welcome, {{username}}</h1>
+<h1>Welcome</h1>
 
     <ul class="nav nav-pills">
         <li class="nav-item">
@@ -17,18 +17,34 @@
                     <div class="dropdown-divider"></div>
                         <a class="dropdown-item" href="/url_scan">Scan Url</a>
                      <div class="dropdown-divider"></div>
-                        <a class="dropdown-item" href="/file_scan">Scan Files</a>
+                        <a class="dropdown-item" href="/scan_files">Scan Files</a>
                 </div>
         </li>
          <li class="nav-item">
             <a class="nav-link" href="/black_listed">Blacklist Urls</a>
         </li>
         <li class="nav-item">
-            <a class="nav-link" href="/">Log out</a>
+            <a class="nav-link" href="/logout">Log out</a>
         </li>
     </ul>
 
 
-    <h1>{{{Place holder for previous scans table}}}}</h1>
+    <h1>table</h1>
+    <table style="width:100%">
+    <tr>
+        <th>Scan Type</th>
+        <th>Scan Findings</th>
+        <th>Scan Date</th>
+    </tr>
+    {% if user.user_id == scan.user_id%}
+    {% for scan in scan_info %}
+        <tr>
+            <td>{{ scan.scan_type }} </td>
+            <td>{{scan.findings}}</td>
+            <td>{{ scan.scan_date}} </td>
+        </tr>
+     
+    </table>
+    {% endfor %}
     {% endblock %}
 

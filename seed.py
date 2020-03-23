@@ -1,7 +1,7 @@
 from jinja2 import StrictUndefined
 import os
 from flask import Flask, render_template, redirect, request, flash, session
-
+from datetime import datetime
 #from flask_debugtoolbar import DebugToolbarExtension
 from werkzeug.utils import secure_filename
 from modelPJ import User, Scan, Best_Practices,connect_to_db, db
@@ -21,6 +21,8 @@ app.jinja_env.undefined = StrictUndefined
 
 def load_BP():
     """Load titles and paragraphs from practices into database."""
+
+   
     file = open("bestpractices.txt")
     counter = 0
     title = []
@@ -38,51 +40,31 @@ def load_BP():
         
         title.append(titles)
        
-        #title.remove(1)
 
 
         
         paragraphs = row[1:]
         paragraphs = ' '.join(paragraphs)
-        #print(paragraphs)
+    
         paragraphs = paragraphs.strip("': ['")
         paragraphs = paragraphs.strip("']}")
         paragraphs = paragraphs.strip("]}")
         paragraphs = paragraphs.strip()
-        #paragraphs = paragraphs.strip("]")
+       
 
         paragraph.append(paragraphs)
 
-        #print(f"this is a new {row}")
-        #if counter > (row):
-            #counter += 1
-    #print(f'titles are {title} ') 
-
-    #print(f'---->>>>> paragraph is {paragraph}')
+ 
     tips = {title[i]: paragraph[i] for i in range(len(title))}
 
     for key, val in tips.items():
-        if key != None and val != None:
+        if key != None or val != None:
              tip_title = key
              tip_paragraph = val
              new_tip = Best_Practices(tip_title=tip_title, tip_paragraph=tip_paragraph)
              db.session.add(new_tip)
              db.session.commit()
-        
 
-
-        
-
-            
-
-        #title = Best_Practices(tip_tilte=title,
-                    #tip_paragraph=paragraph)
-
-        # We need to add to the session or it won't ever be stored
-        #db.session.add(title)
-
-    # Once we're done, we should commit our work
-    #db.session.commit()
 
 
 

@@ -1,40 +1,43 @@
 {% extends 'base.html' %}
+
+{% block title %}Not Another Cyber Site Register{% endblock %}
+
 {% block content %}
 
 <h1>Register An Account</h1>
 
-<form action="/homepage/<username>">
+<form action="/sign_up" method="POST">
 
   <div class="form-group">
     <label>
         Enter First Name
-        <input type="text" name="fname" required class="form-control" >
+        <input type="text" name="fname" required>
     </label>
   </div>
-  <div class="form-group">
 
   <div class="form-group">
     <label>
         Enter Lastname
-        <input type="text" name="lname" required class="form-control" >
+        <input type="text" name="lname" required >
     </label>
   </div>
+  <div class="form-group">
     <label>
         Enter Email Address
-        <input type="email" name="email" required class="form-control" >
+        <input type="email" name="email" required>
     </label>
   </div>
   <div class="form-group">
     <label>
         Enter Username
-        <input type="text" name="username" required class="form-control" >
+        <input type="text" name="username" required>
     </label>
   </div>
 
   <div class="form-group">
     <label>
       Enter Password
-      <input type="password" name="password" required class="form-control">
+      <input type="password" name="password" required>
     </label>
   </div>
 
@@ -44,5 +47,5 @@
   </div>
 
 </form>
-</div>
+
 {% endblock %}

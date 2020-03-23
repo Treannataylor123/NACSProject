@@ -1,5 +1,6 @@
 from jinja2 import StrictUndefined
 import os
+from datetime import datetime
 from flask import Flask, render_template, redirect, request, flash, session
 
 #from flask_debugtoolbar import DebugToolbarExtension
@@ -21,6 +22,7 @@ UPLOAD_FOLDER = 'fileexamples'
 rules = yara.compile("mainrule.yara")
 ALLOWED_EXTENSIONS = set(['txt', 'pdf', 'png', 'jpg', 'jpeg', 'gif'])
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
+
 
 @app.route('/', methods=['GET'])
 def index():
@@ -46,7 +48,7 @@ def process_login():
     session["username"] = user.username
 
     flash("Successfully logged in")
-    return redirect(f'/homepage/{user.username}')
+    return redirect(f'/homepage')
 
 @app.route("/sign_up", methods=['GET'])
 def signup_form():
@@ -54,42 +56,39 @@ def signup_form():
 
     return render_template('sign_upform.html')
 
-@app.route('/sign_up', methods=['POST'])
+@app.route("/sign_up", methods=['POST'])
 def process_signup():
     """processes register"""
     fname= request.form["fname"]
     lname= request.form["lname"]
     email = request.form["email"]
-    password = request.form["password"]
     username = request.form["username"]
-  
+    password = request.form["password"]
+    
 
-    new_user = User(email=email,fname=fname, lname=lname, password=password, username=username)
+    new_user = User(fname=fname, lname=lname, email=email, username=username, password=password)
 
     db.session.add(new_user)
     db.session.commit()
 
     flash(f"User {username} added.")
-    return redirect(f'/homepage/{new_user.username}')
 
-@app.route("/homepage/<username>")
-def home_NACS(username):
+    session["username"] = new_user.username
+
+    return redirect(f'/homepage')
+
+@app.route("/homepage")
+def home_NACS():
     """Offical homepage of the user"""
-    username = User.query.get(username)
+    #user= User.query
 
-    #username = db.session.query(User.fname, User.user_id, User.username,
-        #Scan.scan_type, Scan.scan_date, Scan.scan_findings).join(Scan).all()
+    scan_info = User.query(User.user_id, Scan.scan_type, Scan.scan_date, Scan.scan_findings).join(Scan).all()
 
-    return render_template("user_home.html", username=username)
+    return render_template("user_home.html", scan_info= scan_info)
 
 @app.route("/scan_files", methods =["GET"])
 def scan_files():
     """User uploads files, scan them, get results"""
-    #username = request.get.arg("username")
-    #user = 
-    #scan_findings = 
-    #scan = Scan(scan_findings=scan_findings, scan_date=scan_date, scan_type=scan_type,
-        #user_id=user_id)
 
     return render_template("scan_files.html")
 
@@ -102,21 +101,32 @@ def upload_file():
     #file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
     filepath = (os.path.join(app.config['UPLOAD_FOLDER'], filename))
 
+    scan_type= "File Scan"
+    user_id = user.user_id
+    scan_date = datetime.now
 
     match = rules.match(filepath)
+ 
 
     if match:
-        flash(f"[!] Found Malicious Code, Delete {filename} asap to protect machine!")
-        return redirect("/scan_files")
+        findings = (f"[!] Malicious Code found, Delete {filename} asap to protect machine!")
+        scan = Scan(findings=findings, scan_type=scan_type, scan_date=scan_date,
+        user_id=user_id)
+    
+        db.session.add(scan)
+        db.session.commit()
+        return render_template("malfile.html")
 
     else:
-        flash(f"[!] No Malicious Code found in {filename}, Your Safe!")
-        return redirect("/")
-    #file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
+        findings = (f"[!] No Malicious Code found in {filename}, Your Safe!")
+        scan = Scan(findings=findings, scan_type=scan_type, scan_date=scan_date,
+        user_id=user_id)
+    
+        db.session.add(scan)
+        db.session.commit()
+        return render_template("nonmalfile.html")
 
-    
-    
-    #return redirect("/scan_files", filenmae=filename)
+
 
 
 @app.route("/scan_url")
