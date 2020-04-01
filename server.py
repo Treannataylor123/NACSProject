@@ -115,8 +115,9 @@ def user_home(user_id):
 @app.route("/scan_files", methods =["GET"])
 def scan_files():
     """display file upload form"""
+    user_id = session["user_id"]
 
-    return render_template("scan_files.html")
+    return render_template("scan_files.html", user_id=user_id)
 
 @app.route("/upload", methods=['POST'])
 def upload_file():
@@ -137,8 +138,8 @@ def upload_file():
 
     if match :
         findings = (f"[!] Malicious Code found, Delete {filename} asap to protect machine!")
-        scan = Scan(findings=findings, scan_type=scan_type, scan_date=scan_date,
-        user_id=user_id)
+
+        scan = Scan(findings=findings, scan_type=scan_type, scan_date=scan_date, user_id=user_id)
     
         db.session.add(scan)
         db.session.commit()
@@ -160,8 +161,9 @@ def upload_file():
 @app.route("/scan_url")
 def scan_url():
     """display url form"""
+    user_id = session["user_id"]
     
-    return render_template("scan_url.html")
+    return render_template("scan_url.html", user_id=user_id)
 
 @app.route("/url_scan", methods=['POST'])
 def url_scan():
@@ -192,7 +194,7 @@ def url_scan():
 
 
     if is_mal == False:
-        findings = (f'[!] The following {urls} is {is_mal} of Malicious code.')
+        finding = (f'[!] The following {urls} is {is_mal} of Malicious code.')
         
         new_scan = Scan(findings=findings, scan_type=scan_type, scan_date=scan_date, user_id=user_id)
         
@@ -204,14 +206,14 @@ def url_scan():
 
     if is_mal == True:
 
-        findinngs= (f'[!] The following {urls} is {is_mal} of Malicious code. Threat Type: {threat_type}!')
+        findings= (f'[!] The following {urls} is {is_mal} of Malicious code. Threat Type: {threat_type}!')
         
         new_scan = Scan(findings=findings, scan_type=scan_type, scan_date=scan_date, user_id=user_id)
         
         db.session.add(new_scan)
         db.session.commit()
   
-        return render_template("malfile.html", web_url=url, scan_type=scan_type, user_id=user_id)
+        return render_template("malfile.html", web_url=web_url, scan_type=scan_type, user_id=user_id)
 
         #return redirect("/")
 
@@ -234,7 +236,7 @@ def top_threats():
 
     
 
-    return render_template("topthreats.html", threats=threats, user= user_id)
+    return render_template("topthreats.html", threats=threats, user_id= user_id)
 
 @app.route("/logout")
 def logout():

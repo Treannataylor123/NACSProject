@@ -6,11 +6,11 @@
 
 
 {% if scan_type == "File Scan" %}
-    <h3> [!] Malicious Code found, Delete {{filename}} from computer ASAP to protect machine! </h3>
+    <h3> [!] Malicious Code found, Delete <b><i> {{filename}} </i></b> from computer ASAP to protect machine! </h3>
 {% endif %}
 
 {% if scan_type == "Url Scan" %}
-        <h3> [!] Malicious Code found, do not visit {{web_url}} {{is_mal}}</h3>
+        <h3> [!] Malicious Code found, do not visit <b><i> {{web_url}} </i></b></h3>
 {% endif %}
 
 
