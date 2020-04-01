@@ -36,6 +36,14 @@ class Best_Practices(db.Model):
     tip_title = db.Column(db.String(225), nullable=False)
     tip_paragraph = db.Column(db.String(1000), nullable=False)
 
+class Top_Threats(db.Model):
+
+    __tablename__ = "top_threats"
+
+    threat_id = db.Column(db.Integer, autoincrement=True, primary_key=True)
+    threat_title = db.Column(db.String(225), nullable=False)
+    threat_paragraph = db.Column(db.String(1000), nullable=False)
+    threat_os = db.Column(db.String(225), nullable=False)
 
 def connect_to_db(app):
     """Connect the database to our Flask app."""

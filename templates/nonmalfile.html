@@ -4,9 +4,19 @@
 
 {% block content %}
 
-<h3>[!] No Malicious Code found in {filename}, Your Safe! </h3>
+{% if scan_type == "File Scan" %}
+    
+    <h3>[!] No Malicious Code found in {{filename}}, Your Safe! </h3>
+
+{% endif %}
+
+{% if scan_type == "Url Scan" %}
+    
+    <h3> [!] No Malicious Code found at {{web_url}} {{is_mal}}, Your Safe! </h3>
+
+{% endif %}
 
 
-<a class="nav-link active" href="/homepage">Return to your homepage</a>
+<a class="nav-link active" href="/homepage/{{user_id}}">Return to your homepage</a>
 
  {% endblock %}

@@ -6,7 +6,6 @@
 
 <ul class="nav nav-pills">
         <li class="nav-item">
-      
             <a class="nav-link active" href="/homepage/{{user_id}}">homepage</a>
 
         </li>
@@ -20,7 +19,7 @@
                 </div>
         </li>
          <li class="nav-item">
-            <a class="nav-link" href="/top_threats">Top Threats</a>
+            <a class="nav-link" href="/best_practices">Best Practices</a>
         </li>
         <li class="nav-item">
             <a class="nav-link" href="/logout">Log out</a>
@@ -28,18 +27,19 @@
     </ul>
 
 <div class="well spaced" style="width:60%">
-  <h2>Top 25 Best practices</h2>
-  <p><i>Referenced from <a href= "https://www.us-cert.gov/">CISA </a></i></p>
+  <h2>Top Threats for Windows and MacOS</h2>
+  <p><i>Referenced from <a href= "https://www.forbes.com/sites/zakdoffman/2020/02/19/these-are-the-most-rampant-windows-and-mac-malware-threats-for-2020-heres-what-that-means/#879abdc4ad28">Forbes </a></i></p>
 
-  
-    {% for tip in tips %}
-      <li>
-        
-          <h3> {{ tip.tip_id }} . {{ tip.tip_title }} </h3>
-          <p> {{tip.tip_paragraph}}</p>
 
-      </li>
-    {% endfor %}
+{% for threat in threats %}
+        <li>
+            <h3> {{ threat.threat_id }} . {{ threat.threat_title }} </h3>
+            <p> {{threat.threat_paragraph}} <b><i>This Threat is common on 
+            {{threat.threat_os}} Systems</i></b></p>
+        </li>
+
+{% endfor %}
+
   
 
 </div>

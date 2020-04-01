@@ -5,9 +5,17 @@
 {% block content %}
 
 
+{% if scan_type == "File Scan" %}
+    <h3> [!] Malicious Code found, Delete {{filename}} from computer ASAP to protect machine! </h3>
+{% endif %}
 
-<h3> [!] Malicious Code found, Delete {filename} for computer asap to protect machine! </h3>
+{% if scan_type == "Url Scan" %}
+        <h3> [!] Malicious Code found, do not visit {{web_url}} {{is_mal}}</h3>
+{% endif %}
 
-<a class="nav-link active" href="/homepage">Return to your homepage</a>
+
+
+
+<a class="nav-link active" href="/homepage/{{user_id}}">Return to your homepage</a>
 
  {% endblock %}

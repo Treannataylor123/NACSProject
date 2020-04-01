@@ -5,28 +5,40 @@
 {% block content %}
 
 <h1>Scan URL</h1>
- <ul class="nav nav-pills">
-        <li class="nav-item">
-            <a class="nav-link active" href="/homepage">HomePage</a>
+<ul class="nav nav-pills">
+    <li class="nav-item">
+        <a class="nav-link active" href="/homepage/{{user_id}}">HomePage</a>
 
-        </li>
-        <li class="nav-item">
-            <a class="nav-link active" href="/best_practices">Best Cyber Security Practices</a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link active" href="/best_practices">Best Cyber Security Practices</a>
 
-        </li>
-        <li class="nav-item dropdown">
-            <a class="nav-link dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Scans</a>
-                <div class="dropdown-menu">
-                    <div class="dropdown-divider"></div>
-                        <a class="dropdown-item" href="/scan_files">Scan Files</a>
-                </div>
-        </li>
-         <li class="nav-item">
-            <a class="nav-link" href="/black_listed">Blacklist Urls</a>
-        </li>
-        <li class="nav-item">
-            <a class="nav-link" href="/logout">Log out</a>
-        </li>
-    </ul>
+    </li>
+    <li class="nav-item dropdown">
+        <a class="nav-link dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Scans</a>
+            <div class="dropdown-menu">
+            <div class="dropdown-divider">
+                <a class="dropdown-item" href="/scan_files">Scan Files</a>
+            </div>
+            </div>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link" href="/top_threats">Top Threats</a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link" href="/logout">Log out</a>
+    </li>
+</ul>
+
+    <body>
+        <label>Please input Url began Scan</label>
+        <form action= "/url_scan" method="post">
+        <div>
+            <input type="url" name='url'>
+        </div>
+        <input type="submit" class="btn btn-primary" value="ScanUrl">
+        </form>
+
+    </body>
 
 {% endblock %}

@@ -4,7 +4,7 @@ from flask import Flask, render_template, redirect, request, flash, session
 from datetime import datetime
 #from flask_debugtoolbar import DebugToolbarExtension
 from werkzeug.utils import secure_filename
-from modelPJ import User, Scan, Best_Practices,connect_to_db, db
+from modelPJ import User, Scan, Top_Threats, Best_Practices,connect_to_db, db
 import yara 
 
 
@@ -65,7 +65,30 @@ def load_BP():
              db.session.add(new_tip)
              db.session.commit()
 
+def load_threats():
+    """loadind the top malware threats into Top_Threats DB"""
+    file = open("blacklist.txt")
+    i = 0
 
+    for row in file: 
+        row = row.strip("  '  '  ' '")
+        row = row.split("': '")
+        threat_title = row[0]
+        threat_paragraph = row[1: ]
+        threat_paragraph = "".join(threat_paragraph).rstrip()
+        print(threat_paragraph)
+
+        if i < 10:
+            threat_os = "Windows"
+           
+        else:
+            threat_os = "Mac iOS"
+            
+
+        new_threat = Top_Threats(threat_title=threat_title, threat_paragraph=threat_paragraph, threat_os=threat_os)
+        db.session.add(new_threat)
+        db.session.commit()
+        i += 1
 
 
 if __name__ == "__main__":
@@ -77,5 +100,6 @@ if __name__ == "__main__":
 
     # Import different types of data
     load_BP()
+    load_threats()
    
   
