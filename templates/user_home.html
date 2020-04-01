@@ -1,24 +1,20 @@
 {% extends "base.html" %}
 
-{% block title %}NACS Home{% endblock %}
+{% block title %}Not Another Cyber Site: Home{% endblock %}
 
 {% block content %}
-
+<body>
 <h1>Welcome, {{username}} </h1>
 
-    <ul class="nav nav-pills">
+    <ul class="nav nav-tabs">
         <li class="nav-item">
             <a class="nav-link active" href="/best_practices">Best Cyber Security Practices</a>
-
         </li>
-        <li class="nav-item dropdown">
-            <a class="nav-link dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Scans</a>
-                <div class="dropdown-menu">
-                    <div class="dropdown-divider"></div>
-                        <a class="dropdown-item" href="/scan_url">Scan Url</a>
-                     <div class="dropdown-divider"></div>
-                        <a class="dropdown-item" href="/scan_files">Scan Files</a>
-                </div>
+        <li class="nav-item">
+            <a class="nav-link active" href="/scan_url">Scan Url</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link active" href="/scan_files">Scan Files</a>
         </li>
          <li class="nav-item">
             <a class="nav-link" href="/top_threats">Top Threats</a>
@@ -27,15 +23,20 @@
             <a class="nav-link" href="/logout">Log out</a>
         </li>
     </ul>
+
     {% if user_id == uid %}
     <h1>Previous Scans</h1>
-    <table style="width:100%">
-    <tr>
-        <th>Scan Type</th>
-        <th>Scan Findings</th>
-        <th>Scan Date</th>
-    </tr>
+
+    <table class="table">
+        <thead class="thead-dark">
+            <tr>
+                <th scope="col">Scan Type</th>
+                <th scope="col">Scan Findings</th>
+                <th scope="col">Scan Date</th>
+            </tr>
+        </thead>
         {% for scan in scan_info %}
+        <tbody>
         <tr>
             <td>{{scan.scan_type }}</td>
             <td>{{scan.findings}}</td>
@@ -43,10 +44,12 @@
         </tr>
         
         {% endfor %}
-        </table>
+        </tbody>
+    </table>
     {% else %}
         <h3>You Have no Current Scans At the Moment</h3>
        
     {% endif %}
+</body>
 {% endblock %}
 

@@ -1,21 +1,21 @@
 {% extends 'base.html' %}
 
-{% block title %}Not Another Cyber Site Stay Safe{% endblock %}
+{% block title %}Not Another Cyber Site: Stay Safe{% endblock %}
 
 {% block content %}
-
-{% if scan_type == "File Scan" %}
+<div class="alert alert-success" role="alert">
+    {% if scan_type == "File Scan" %}
     
-    <h3>[!] No Malicious Code found in <b><i> {{filename}} </i></b>, Your Safe! </h3>
+        <h3>[!] No Malicious Code found in <b><i> {{filename}} </i></b>, Your Safe! </h3>
 
-{% endif %}
+    {% endif %}
 
-{% if scan_type == "Url Scan" %}
+    {% if scan_type == "Url Scan" %}
     
-    <h3> [!] No Malicious Code found at <b><i> {{web_url}} </i></b>, Your Safe! </h3>
+        <h3> [!] No Malicious Code found at <b><i> {{web_url}} </i></b>, Your Safe! </h3>
 
-{% endif %}
-
+    {% endif %}
+</div>
 
 <a class="nav-link active" href="/homepage/{{user_id}}">Return to your homepage</a>
 

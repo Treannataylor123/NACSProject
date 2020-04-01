@@ -1,12 +1,15 @@
 {% extends 'base.html' %}
 
-{% block title %}Not Another Cyber Site{% endblock %}
+{% block title %}Not Another Cyber Site {% endblock %}
 
 {% block content %}
+<div class= "headers">
+  <h1> Welcome to NACS</h1>
+  <p><i>Not Another Cyber Site</i></p>
 
-<h1> Welcome to NACS</h1>
+  <h3> Securing Your System, One Less Malware at a Time </h3>
+</div>
 
-<h3> {PLACE HEADER FOR INFORMATION} </h3>
   
 
 <form action="/" method="POST">
@@ -28,12 +31,9 @@
     </div>
 
 </form>
-<form action="/sign_up" method="GET">
-
-    <div class= 'sign-up-btn'>
-        <label>If no login </label>
-        <input type ="submit" value='Sign-Up' class="btn btn" >
-    </div>
-</form>
+<div class="return">
+    <label>No Account?</label>
+    <a class="nav-link active" href="/sign_up" method= "GET">Register</a>
+</div>
 {% endblock %}
 

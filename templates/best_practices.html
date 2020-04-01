@@ -1,31 +1,27 @@
 {% extends 'base.html' %}
 
-{% block title %}Not Another Cyber Site Stay Safe{% endblock %}
+{% block title %}Not Another Cyber Site: Tips Stay Safe{% endblock %}
 
 {% block content %}
 
-<ul class="nav nav-pills">
-        <li class="nav-item">
-      
-            <a class="nav-link active" href="/homepage/{{user_id}}">homepage</a>
-
-        </li>
-        <li class="nav-item dropdown">
-            <a class="nav-link dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Scans</a>
-                <div class="dropdown-menu">
-                    <div class="dropdown-divider"></div>
-                        <a class="dropdown-item" href="/scan_url">Scan Url</a>
-                     <div class="dropdown-divider"></div>
-                        <a class="dropdown-item" href="/scan_files">Scan Files</a>
-                </div>
-        </li>
-         <li class="nav-item">
-            <a class="nav-link" href="/top_threats">Top Threats</a>
-        </li>
-        <li class="nav-item">
-            <a class="nav-link" href="/logout">Log out</a>
-        </li>
-    </ul>
+<ul class="nav nav-tabs">
+  <li class="nav-item">
+    <a class="nav-link active" href="/homepage/{{user_id}}">homepage</a>
+  </li>
+  <li class="nav-item">
+    <a class="dropdown-item" href="/scan_url">Scan Url</a>
+  </li>
+  <li class="nav-item">   
+    <a class="dropdown-item" href="/scan_files">Scan Files</a>
+  </li>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" href="/top_threats">Top Threats</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" href="/logout">Log out</a>
+  </li>
+</ul>
 
 <div class="well spaced" style="width:60%">
   <h2>Top 25 Best practices</h2>

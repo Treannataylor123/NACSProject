@@ -194,7 +194,7 @@ def url_scan():
 
 
     if is_mal == False:
-        finding = (f'[!] The following {urls} is {is_mal} of Malicious code.')
+        findings = (f'[!] The following {urls} is {is_mal} of Malicious code.')
         
         new_scan = Scan(findings=findings, scan_type=scan_type, scan_date=scan_date, user_id=user_id)
         
