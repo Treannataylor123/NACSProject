@@ -4,38 +4,59 @@
 
 {% block content %}
 
-<ul class="nav nav-tabs">
-    <li class="nav-item">
-        <a class="nav-link active" href="/homepage/{{user_id}}">homepage</a>
-    </li>
-    <li class="nav-item">
-        <a class="nav-link active" href="/scan_url">Scan Url</a>
-    </li>
-        <a class="nav-link active" href="/scan_files">Scan Files</a>
-    </li>
-    <li class="nav-item">
-        <a class="nav-link" href="/best_practices">Best Practices</a>
-    </li>
-    <li class="nav-item">
-        <a class="nav-link" href="/logout">Log out</a>
-    </li>
-</ul>
+<div class="p-3">
+<h2><i>Not Another Cyber Site</i></h2>
+
+<p> Securing Your CyberHome, One Less Malware at a Time!</p>
+<div class="text-right">
+    <p><a class="nav-link" href="/logout">Not You? Logout</a></p>
+</div>
+
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <ul class="nav nav-tabs nav-fill">
+        <li class="nav-item">
+            <a class="nav-link" href="/homepage/{{user_id}}">Homepage</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="/best_practices">Best Cyber Security Practices</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="/scan_url">Scan Url</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="/scan_files">Scan Files</a>
+        </li>
+         <li class="nav-item">
+            <a class="nav-link active" href="/top_threats">Top Threats</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="/top_tools">Tools</a>
+        </li>
+    </ul>
+</nav>
+</div>
+<div class="p-3">
+<body>
+<h3><i>What is Malicious Code?</i></h3>
+<p>Malicious code usually comes in the form of a software or script. Most commonly known as Virus, Worms, Trojen horses, etc.Cybercriminals use this code to atack systems to steal information such as personal data, company aseests, customer information,indiviual banking account information, ssn, addresses, passwords, and much more. <b><i>Below are some of the most popluar malware threats on both MacOs and Windows</i></b></p>
 
 <div class="well spaced" style="width:60%">
-  <h2>Top Threats for Windows and MacOS</h2>
+  <h4>Top Threats for Windows and MacOS</h4>
   <p><i>Referenced from <a href= "https://www.forbes.com/sites/zakdoffman/2020/02/19/these-are-the-most-rampant-windows-and-mac-malware-threats-for-2020-heres-what-that-means/#879abdc4ad28">Forbes </a></i></p>
 
 
 {% for threat in threats %}
         <li>
-            <h3> {{ threat.threat_id }} . {{ threat.threat_title }} </h3>
+            <h4>{{ threat.threat_title }} </h4>
             <p> {{threat.threat_paragraph}} <b><i>This Threat is common on 
             {{threat.threat_os}} Systems</i></b></p>
         </li>
 
 {% endfor %}
-
-  
-
 </div>
+</body>
+</div>
+
+
+
 {% endblock %}

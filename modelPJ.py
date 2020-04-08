@@ -25,6 +25,8 @@ class Scan(db.Model):
     user_id = db.Column(db.Integer, db.ForeignKey('users.user_id'), nullable=False)
     scan_type = db.Column(db.String(100), nullable=True)
     findings = db.Column(db.String(225), nullable=True)
+    mal_code = db.Column(db.String(225), nullable=True)
+    scan_item = db.Column(db.String(1000), nullable=True)
     scan_date = db.Column(db.DateTime, nullable=False)
 
 class Best_Practices(db.Model):
@@ -44,6 +46,17 @@ class Top_Threats(db.Model):
     threat_title = db.Column(db.String(225), nullable=False)
     threat_paragraph = db.Column(db.String(1000), nullable=False)
     threat_os = db.Column(db.String(225), nullable=False)
+
+class Top_tools(db.Model):
+
+    __tablename__ = "top_tools"
+
+    tool_id = db.Column(db.Integer, autoincrement=True, primary_key=True)
+    tool_type = db.Column(db.String(225), nullable=False)
+    tool_title = db.Column(db.String(225), nullable=False)
+    tool_url = db.Column(db.String(1000), nullable=False)
+    tool_features = db.Column(db.String(1000), nullable=False)
+    tool_price = db.Column(db.String(225), nullable=False)
 
 def connect_to_db(app):
     """Connect the database to our Flask app."""

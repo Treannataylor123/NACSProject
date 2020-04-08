@@ -13,7 +13,7 @@ import httplib2
 from pysafebrowsing import SafeBrowsing
 #from flask_debugtoolbar import DebugToolbarExtension
 from werkzeug.utils import secure_filename
-from modelPJ import User, Scan, Best_Practices, Top_Threats, connect_to_db, db
+from modelPJ import User, Scan, Top_tools, Best_Practices, Top_Threats, connect_to_db, db
 import yara 
 
 
@@ -98,15 +98,26 @@ def process_signup():
 def user_home(user_id):
     """displays Offical homepage of the user including previous scans"""
     username = session["username"]
+
     #user = User.query.all()
     #scans = Scan.query.all()
     #user_id = session["user_id"]
 
     #uid = Scan.query.filter_by(user_id=user_id).first()
-    uid = user_id
+    
 
     #if user_id == scan_user: 
     scan_info = Scan.query.filter_by(user_id=user_id).all()
+    uid = user_id
+
+    if session.get("scanfile_id"):
+        if session["scanfile_id"] != None:
+            del session["scanfile_id"]
+
+    if session.get("scanurl_id"):
+            if session["scanurl_id"] != None:
+                del session["scanurl_id"]
+
     return render_template("user_home.html", username=username, scan_info=scan_info, user_id=user_id, uid=uid)
     #else:
         #return render_template("user_home.html", username = username )
@@ -115,9 +126,32 @@ def user_home(user_id):
 @app.route("/scan_files", methods =["GET"])
 def scan_files():
     """display file upload form"""
-    user_id = session["user_id"]
+    user_id = session["user_id"] #gets user_id
+    
+    scan_info = Scan.query.filter_by(user_id=user_id).first() #gets scan id of user, if multiple scans then mulitple ids
+    scan_id = session.get("scanfile_id")
+    #scan_info != None and
+    
+    if scan_id != None: #checks to see id scan info is not null
 
-    return render_template("scan_files.html", user_id=user_id)
+        #scan_id = session["scanfile_id"] #get the scan thats currently in sesion
+        scan = Scan.query.filter_by(scan_id=scan_id).first() #gets the information assosicated with the scan_id
+
+        if session.get("scanurl_id"):
+            if session["scanurl_id"] != None:
+                del session["scanurl_id"]
+
+        if scan:
+            mal_code = scan.mal_code
+            #sid = scan.scan_id
+            filename = scan.scan_item
+            return render_template("scan_files.html", user_id=user_id, mal_code=mal_code, filename=filename)
+        #return render_template("scan_files.html", user_id=user_id)
+    else: 
+        mal_code = None
+        return render_template("scan_files.html", mal_code=mal_code, scan_info=scan_info, user_id=user_id)
+
+
 
 @app.route("/upload", methods=['POST'])
 def upload_file():
@@ -131,6 +165,7 @@ def upload_file():
     scan_type= "File Scan"
     user_id = session['user_id']
     scan_date = datetime.now()
+    scan_item = filename
 
     match = rules.match(filepath)
 
@@ -138,32 +173,53 @@ def upload_file():
 
     if match :
         findings = (f"[!] Malicious Code found, Delete {filename} asap to protect machine!")
-
-        scan = Scan(findings=findings, scan_type=scan_type, scan_date=scan_date, user_id=user_id)
+        mal_code = True
+        scan = Scan(findings=findings, scan_type=scan_type, scan_date=scan_date, user_id=user_id, mal_code=mal_code, scan_item=scan_item)
     
         db.session.add(scan)
         db.session.commit()
-
-        return render_template("malfile.html", filename=filename, scan_type=scan_type, user_id=user_id)
+        session["scanfile_id"] = scan.scan_id
+        return redirect("/scan_files")
+        #return render_template("malfile.html", filename=filename, scan_type=scan_type, user_id=user_id)
 
     else:
 
-        findings = (f"[!] No Malicious Code found in {filename}, Your Safe!")
+        findings = (f"[+] No Malicious Code found in {filename}, Your Safe!")
+        mal_code = False
         scan = Scan(findings=findings, scan_type=scan_type, scan_date=scan_date,
-        user_id=user_id)
+        user_id=user_id, mal_code=mal_code, scan_item=scan_item)
 
         db.session.add(scan)
         db.session.commit()
-
-     
-        return render_template("nonmalfile.html", filename=filename, scan_type=scan_type, user_id=user_id)
+        session["scanfile_id"] = scan.scan_id
+        return redirect("/scan_files")
+        #return render_template("nonmalfile.html", filename=filename, scan_type=scan_type, user_id=user_id)
 
 @app.route("/scan_url")
 def scan_url():
     """display url form"""
     user_id = session["user_id"]
+    scan_info = Scan.query.filter_by(user_id=user_id).first()
+    scan_id = session.get("scanurl_id")
+
     
-    return render_template("scan_url.html", user_id=user_id)
+    if scan_id != None: #checks to see id scan info is not null
+
+        scan = Scan.query.filter_by(scan_id=scan_id).first() #gets the information assosicated with the scan_id
+
+        if session.get("scanfile_id"):
+            if session["scanfile_id"] != None:
+                del session["scanfile_id"]
+        
+        if scan:
+            mal_code = scan.mal_code
+            sid = scan.scan_id
+            web_url = scan.scan_item
+            return render_template("scan_url.html", user_id=user_id, mal_code=mal_code, web_url=web_url)
+
+    else:
+        mal_code = None
+        return render_template("scan_url.html", mal_code=mal_code, scan_info=scan_info, user_id=user_id)
 
 @app.route("/url_scan", methods=['POST'])
 def url_scan():
@@ -177,7 +233,7 @@ def url_scan():
     user_id = session['user_id']
     scan_date = datetime.now()
     is_mal = []
-
+    scan_item = web_url
 
     for key, val in res.items():
         urls = key
@@ -191,29 +247,34 @@ def url_scan():
             platforms = threat
 
     #is_mal = "".join(is_mal)
-
+    if session.get("scanfile_id"):
+        if session["scanfile_id"] != None:
+            del session["scanfile_id"]
 
     if is_mal == False:
-        findings = (f'[!] The following {urls} is {is_mal} of Malicious code.')
-        
-        new_scan = Scan(findings=findings, scan_type=scan_type, scan_date=scan_date, user_id=user_id)
+        findings = (f'[+] The following {urls} is {is_mal} of Malicious code.')
+        mal_code = False
+        new_scan = Scan(findings=findings, scan_type=scan_type, scan_date=scan_date, user_id=user_id, mal_code=mal_code, scan_item=scan_item)
         
         db.session.add(new_scan)
         db.session.commit()
+        session["scanurl_id"] = new_scan.scan_id
 
-    
-        return render_template("nonmalfile.html", web_url= web_url, scan_type=scan_type, user_id=user_id, is_mal=is_mal)
+        return redirect("/scan_url")
+        #return render_template("nonmalfile.html", web_url= web_url, scan_type=scan_type, user_id=user_id, is_mal=is_mal)
 
     if is_mal == True:
 
         findings= (f'[!] The following {urls} is {is_mal} of Malicious code. Threat Type: {threat_type}!')
-        
-        new_scan = Scan(findings=findings, scan_type=scan_type, scan_date=scan_date, user_id=user_id)
+        mal_code = True
+        new_scan = Scan(findings=findings, scan_type=scan_type, scan_date=scan_date, user_id=user_id, mal_code=mal_code, scan_item=scan_item)
         
         db.session.add(new_scan)
         db.session.commit()
+        session["scanurl_id"] = new_scan.scan_id
+        return redirect("/scan_url")
   
-        return render_template("malfile.html", web_url=web_url, scan_type=scan_type, user_id=user_id)
+        #return render_template("malfile.html", web_url=web_url, scan_type=scan_type, user_id=user_id)
 
         #return redirect("/")
 
@@ -221,22 +282,56 @@ def url_scan():
 @app.route("/best_practices")
 def best_practices():
     """displau list ofbest practices for cyber security at home"""
-
+   
     tips = Best_Practices.query.all()
     user_id = session["user_id"]
-    
+
+    if session.get("scanfile_id"):
+        if session["scanfile_id"] != None:
+            del session["scanfile_id"]
+
+    if session.get("scanurl_id"):
+        if session["scanurl_id"] != None:
+            del session["scanurl_id"]
 
     return render_template("best_practices.html", tips=tips, user_id=user_id)
 
 @app.route("/top_threats")
 def top_threats():
     """display the top threats for Mac and Windows OS"""
+   
     threats = Top_Threats.query.all()
     user_id = session["user_id"]
 
+    if session.get("scanfile_id"):
+        if session["scanfile_id"] != None:
+            del session["scanfile_id"]
+
+    if session.get("scanurl_id"):
+        if session["scanurl_id"] != None:
+            del session["scanurl_id"]
     
 
     return render_template("topthreats.html", threats=threats, user_id= user_id)
+
+@app.route("/top_tools")
+def top_tools():
+    """display the top tool for system protects"""
+   
+    tools = Top_tools.query.all()
+    user_id = session["user_id"]
+
+    if session.get("scanfile_id"):
+        if session["scanfile_id"] != None:
+            del session["scanfile_id"]
+
+    if session.get("scanurl_id"):
+        if session["scanurl_id"] != None:
+            del session["scanurl_id"]
+
+    return render_template("recommend.html", tools=tools, user_id=user_id)
+
+
 
 @app.route("/logout")
 def logout():

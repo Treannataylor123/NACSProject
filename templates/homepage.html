@@ -3,37 +3,30 @@
 {% block title %}Not Another Cyber Site {% endblock %}
 
 {% block content %}
-<div class= "headers">
+
+<div class="p-3">
+
   <h1> Welcome to NACS</h1>
   <p><i>Not Another Cyber Site</i></p>
 
-  <h3> Securing Your System, One Less Malware at a Time </h3>
+  <h3> Securing Your CyberHome, One Less Malware at a Time!</h3>
 </div>
 
-  
+<div class="p-3"><div class="row"><div class col-lg>
 
 <form action="/" method="POST">
-
-    <div class="form-group">
-      <label>Please enter Username:
-          <input type="text" name="username" required class="form-control">
-      </label>
-    </div>
-
-    <div class="form-group">
-      <label>Please Enter Password:
-          <input type="password" name="password" required class="form-control">
-      </label>
-    </div>
-
-    <div class="form-group">
-      <input type="submit" value="Log In" class="btn btn">
-    </div>
-
+      <div class="form-group">
+        <label for= "InputUsername">Enter Username: </label>
+          <input type="text" name="username" required class="form-control" placeholder="Username">
+      </div>
+      <div class="form-group">
+        <label for="InputPassword">Enter Password:</label>
+          <input type="password" name="password" required class="form-control" placeholder="Password">
+      </div>
+    <button type="submit" class="btn btn-dark">Login</button>
 </form>
-<div class="return">
-    <label>No Account?</label>
-    <a class="nav-link active" href="/sign_up" method= "GET">Register</a>
-</div>
+
+    <p>No Account? <a class="nav-link active" href="/sign_up" method= "GET">Register</a></p>
+</div></div></div>
 {% endblock %}
 

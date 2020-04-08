@@ -4,30 +4,42 @@
 
 {% block content %}
 
-<h1>Scan URL</h1>
-<ul class="nav nav-tabs">
-    <li class="nav-item">
-        <a class="nav-link active" href="/homepage/{{user_id}}">HomePage</a>
-    </li>
-    <li class="nav-item">
-        <a class="nav-link active" href="/best_practices">Best Cyber Security Practices</a>
-    </li>
-    <li class="nav-item">
-        <a class="nav-link active" href="/scan_files">Scan Files</a>
-    </li>
-    <li class="nav-item">
-        <a class="nav-link active" href="/scan_url">Scan Url</a>
-    </li>
-    <li class="nav-item">
-        <a class="nav-link" href="/top_threats">Top Threats</a>
-    </li>
-    <li class="nav-item">
-        <a class="nav-link" href="/logout">Log out</a>
-    </li>
-</ul>
+<div class="p-3">
+<h2><i>Not Another Cyber Site</i></h2>
 
+<p> Securing Your CyberHome, One Less Malware at a Time!</p>
+<div class="text-right">
+    <p><a class="nav-link" href="/logout">Not You? Logout</a></p>
+</div>
+
+
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <ul class="nav nav-tabs nav-fill">
+        <li class="nav-item">
+            <a class="nav-link " href="/homepage/{{user_id}}">Homepage</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="/best_practices">Best Cyber Security Practices</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link active" href="/scan_url">Scan Url</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="/scan_files">Scan Files</a>
+        </li>
+         <li class="nav-item">
+            <a class="nav-link" href="/top_threats">Top Threats</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="/top_tools">Tools</a>
+        </li>
+    </ul>
+</nav>
+</div>
+<div class="p-3">
+<h3>Scan URL</h3>
     <body>
-        <label for = "InputURL">Please input Url began Scan</label>
+        <label for = "InputURL">Input Url to Began Scan</label>
         <form action= "/url_scan" method="post">
             <div class="form-group">
                 <input type="url" name='url'>
@@ -35,5 +47,21 @@
             <button type="submit" class="btn btn-dark"> Scan </button>
         </form>
     </body>
+
+    {% if mal_code == "true" %}
+        <div class="alert alert-danger" role="alert">
+            <h3> [!] Malicious Code found, do not visit <b><i> {{web_url}} </i></b></h3>
+        </div>
+    {% elif mal_code ==  "false" %}
+        <div class="alert alert-success" role="alert">
+            <h3> [+] No Malicious Code found at <b><i> {{web_url}} </i></b>, Your Safe! </h3>
+        </div>
+
+    {% else %}
+
+    
+    {% endif %}
+</div>
+
 
 {% endblock %}

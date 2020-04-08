@@ -3,40 +3,53 @@
 {% block title %}Not Another Cyber Site: Tips Stay Safe{% endblock %}
 
 {% block content %}
+<div class="p-3">
+<h2><i>Not Another Cyber Site</i></h2>
 
-<ul class="nav nav-tabs">
-  <li class="nav-item">
-    <a class="nav-link active" href="/homepage/{{user_id}}">homepage</a>
-  </li>
-  <li class="nav-item">
-    <a class="dropdown-item" href="/scan_url">Scan Url</a>
-  </li>
-  <li class="nav-item">   
-    <a class="dropdown-item" href="/scan_files">Scan Files</a>
-  </li>
-  </li>
-  <li class="nav-item">
-    <a class="nav-link" href="/top_threats">Top Threats</a>
-  </li>
-  <li class="nav-item">
-    <a class="nav-link" href="/logout">Log out</a>
-  </li>
-</ul>
+<p> Securing Your CyberHome, One Less Malware at a Time!</p>
+<div class="text-right">
+  <p><a class="nav-link" href="/logout">Not You? Logout</a></p>
+</div>
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <ul class="nav nav-tabs nav-fill">
+        <li class="nav-item">
+            <a class="nav-link " href="/homepage/{{user_id}}">Homepage</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link active" href="/best_practices">Best Cyber Security Practices</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="/scan_url">Scan Url</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="/scan_files">Scan Files</a>
+        </li>
+         <li class="nav-item">
+            <a class="nav-link" href="/top_threats">Top Threats</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="/top_tools">Tools</a>
+        </li>
+    </ul>
+</nav>
+</div>
 
+<div class="p-3">
 <div class="well spaced" style="width:60%">
-  <h2>Top 25 Best practices</h2>
+  <h3>Top 25 Best Practices, to protect yourself from Cybercriminals</h3>
   <p><i>Referenced from <a href= "https://www.us-cert.gov/">CISA </a></i></p>
 
   
     {% for tip in tips %}
-      <li>
+      <ul>
         
-          <h3> {{ tip.tip_id }} . {{ tip.tip_title }} </h3>
-          <p> {{tip.tip_paragraph}}</p>
+          <li><h5><b>{{tip.tip_title }} </b></h5>
+          <p> {{tip.tip_paragraph}}</p></li>
 
-      </li>
+      </ul>
     {% endfor %}
   
 
+</div>
 </div>
 {% endblock %}

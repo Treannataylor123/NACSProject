@@ -1,0 +1,59 @@
+{% extends 'base.html' %}
+
+{% block title %}Not Another Cyber Site: Stay Safe{% endblock %}
+
+{% block content %}
+
+<div class="p-3">
+<h2><i>Not Another Cyber Site</i></h2>
+
+<p> Securing Your CyberHome, One Less Malware at a Time!</p>
+<div class="text-right">
+    <p><a class="nav-link" href="/logout">Not You? Logout</a></p>
+</div>
+
+  <nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <ul class="nav nav-tabs nav-fill">
+        <li class="nav-item">
+            <a class="nav-link" href="/homepage/{{user_id}}">Homepage</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="/best_practices">Best Cyber Security Practices</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="/scan_url">Scan Url</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="/scan_files">Scan Files</a>
+        </li>
+         <li class="nav-item">
+            <a class="nav-link" href="/top_threats">Top Threats</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link active" href="/top_tools">Tools</a>
+        </li>
+    </ul>
+</nav>
+</div>
+<div class="p-3">
+<body>
+<h3> Recommeded Tools </h3>
+
+<p>There are many tools and software one can use to help ensure best practices
+such as <b><i>anitivirus softwares to protect systems against malwares and more, password managers to generate effective passwords, multi-factor authentication for maximum protection of digital data, and more!</i></b> Many devices and operating system have some of these features build-in to provide free protection to their clients. Windows 10 has Windows defender, an antivirus software. MacOs has Keychains a password manager application. Also most new mobile devices provides multiple factor authentication including finger print, face recognition, and more.</p>
+    <b><p> Below are a the most poplular softwares and tools for Antivirus</p></b>
+<h3>Antvirus Software</h3>
+{% for tool in tools %}
+<li>
+    <h4>{{ tool.tool_title }} </h4>
+    <p>{{tool.tool_title}} Includes: {{tool.tool_features}} Price: {{tool.tool_price}}. Visit: {{tool.tool_url}} </p>
+</li>
+
+
+{% endfor %}
+    
+</body>
+</div>
+
+
+ {% endblock %}

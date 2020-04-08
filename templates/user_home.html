@@ -3,29 +3,43 @@
 {% block title %}Not Another Cyber Site: Home{% endblock %}
 
 {% block content %}
-<body>
-<h1>Welcome, {{username}} </h1>
+<div class="p-3">
+<h2><i>Not Another Cyber Site</i></h2>
+<p> Securing Your CyberHome, One Less Malware at a Time!</p>
+<h3>Welcome, {{username}} </h3> 
+<div class="text-right"> <p><a class="nav-link" href="/logout">Not You? Logout</a></p> </div>
 
-    <ul class="nav nav-tabs">
+
+
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <ul class="nav nav-tabs nav-fill">
         <li class="nav-item">
-            <a class="nav-link active" href="/best_practices">Best Cyber Security Practices</a>
+            <a class="nav-link active" href="/homepage/{{user_id}}">Homepage</a>
         </li>
         <li class="nav-item">
-            <a class="nav-link active" href="/scan_url">Scan Url</a>
+            <a class="nav-link" href="/best_practices">Best Cyber Security Practices</a>
         </li>
         <li class="nav-item">
-            <a class="nav-link active" href="/scan_files">Scan Files</a>
+            <a class="nav-link" href="/scan_url">Scan Url</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="/scan_files">Scan Files</a>
         </li>
          <li class="nav-item">
             <a class="nav-link" href="/top_threats">Top Threats</a>
         </li>
         <li class="nav-item">
-            <a class="nav-link" href="/logout">Log out</a>
+            <a class="nav-link" href="/top_tools">Tools</a>
         </li>
     </ul>
+</nav>
+</div>
 
+
+<div class="p-3">
+<body>
     {% if user_id == uid %}
-    <h1>Previous Scans</h1>
+    <h3>Previous Scans</h3>
 
     <table class="table">
         <thead class="thead-dark">
@@ -33,23 +47,28 @@
                 <th scope="col">Scan Type</th>
                 <th scope="col">Scan Findings</th>
                 <th scope="col">Scan Date</th>
+                <th scope="col">Is Malicious</th>
             </tr>
         </thead>
         {% for scan in scan_info %}
-        <tbody>
-        <tr>
-            <td>{{scan.scan_type }}</td>
-            <td>{{scan.findings}}</td>
-            <td>{{scan.scan_date}}</td>
-        </tr>
+            <tbody>
+            <tr>
+    
+                <td>{{scan.scan_type}}</td>
+                <td>{{scan.findings}}</td>
+                <td>{{scan.scan_date}}</td>
+                <td>{{scan.mal_code}}</td>
+
+            </tr>
+            </tbody>
         
         {% endfor %}
-        </tbody>
     </table>
     {% else %}
         <h3>You Have no Current Scans At the Moment</h3>
        
     {% endif %}
-</body>
+    </body>
+</div>
 {% endblock %}
 

@@ -1,0 +1,42 @@
+{% extends 'base.html' %}
+
+{% block title %}Not Another Cyber Site: Stay Safe{% endblock %}
+
+{% block content %}
+<a class="nav-link active" href="/logout">Log out</a>
+
+     <ul class="nav nav-tabs">
+        <li class="nav-item">
+            <a class="nav-link active" href="/best_practices">Best Cyber Security Practices</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link active" href="/scan_url">Scan Url</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link active" href="/scan_files">Scan Files</a>
+        </li>
+         <li class="nav-item">
+            <a class="nav-link active" href="/top_threats">Top Threats</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link active" href="/top_tools">Tools</a>
+        </li>
+    </ul>
+
+<h3>There are many tools and software one can use to help ensure best practices
+such as <b><i>anitivirus softwares to protect systems against malwares and more, password managers to 
+generate effective passwords, multi-factor authentication for maximum protection of digital data, and more!</i></b> Many devices and operating system have some of these features build-in to provide free protection to their clients. Windows 10 has Windows defender, an antivirus software. MacOs has Keychains a password manager application. Also most new mobile devices provides multiple factor authentication including finger print, face recognition, and more.</h3>
+    <b><p> Below are a the most poplular softwares and tools for Antivirus<b><p>
+<h3>Antvirus Software</h3>
+{% for tool in tools %}
+<li>
+            <h4> {{ tool.tool_id }} . {{ tool.tool_title }} </h4>
+            <p><a class="nav-link active" href="{{tool.tool_url}}">{{ tool.tool_title }}</a>
+            Includes: {{tool.too_features}}  Price: {{tool.tool_price}} 
+        </li>
+
+{% endfor %}
+    
+
+
+ {% endblock %}

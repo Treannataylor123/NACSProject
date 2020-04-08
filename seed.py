@@ -4,7 +4,7 @@ from flask import Flask, render_template, redirect, request, flash, session
 from datetime import datetime
 #from flask_debugtoolbar import DebugToolbarExtension
 from werkzeug.utils import secure_filename
-from modelPJ import User, Scan, Top_Threats, Best_Practices,connect_to_db, db
+from modelPJ import User, Scan, Top_tools, Top_Threats, Best_Practices,connect_to_db, db
 import yara 
 
 
@@ -89,6 +89,21 @@ def load_threats():
         db.session.add(new_threat)
         db.session.commit()
         i += 1
+def load_tools():
+    file = open("recommend.txt")
+
+    for row in file:
+
+        row = row.rstrip()
+
+        # parse the line futher by spliting the line by fields/catagory
+        tool_type, tool_title, tool_url, tool_features, tool_price = row.split("|")
+
+        new_tool = Top_tools(tool_type=tool_type, tool_title=tool_title, tool_url=tool_url, tool_features=tool_features, 
+                tool_price=tool_price)
+
+        db.session.add(new_tool)
+        db.session.commit()
 
 
 if __name__ == "__main__":
@@ -101,5 +116,6 @@ if __name__ == "__main__":
     # Import different types of data
     load_BP()
     load_threats()
+    load_tools()
    
   

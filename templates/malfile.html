@@ -4,7 +4,7 @@
 
 {% block content %}
 
-<div class = "Neg-Warning">
+<div class="alert alert-danger" role="alert">
 {% if scan_type == "File Scan" %}
     <h3> [!] Malicious Code found, Delete <b><i> {{filename}} </i></b> from computer ASAP to protect machine! </h3>
 {% endif %}
